@@ -55,7 +55,7 @@
             background: rgba(0, 0, 0, 0.7);
             color: white;
             padding: 3px 8px;
-            font-size: 18px;
+            font-size: 16px;
             border-radius: 5px;
             transform: translate(-50%, -150%);
             white-space: nowrap;
@@ -133,21 +133,27 @@
 
     <script>
         const locations = [
-            { name: "ZoneA 1", image: "images/ZoneA1.jpg", x: 0.605, y: 0.30 },
-            { name: "ZoneA 2", image: "images/ZoneA2.jpg", x: 0.57, y: 0.2 },
-            { name: "ZoneA 3", image: "images/ZoneA3.jpg", x: 0.51, y: 0.27 },
-            { name: "ZoneA 4", image: "images/ZoneA4.jpg", x: 0.6, y: 0.12 },
-            { name: "ZoneB 1", image: "images/ZoneB1.jpg", x: 0.385, y: 0.54 },
-            { name: "ZoneB 2", image: "images/ZoneB2.jpg", x: 0.39, y: 0.47 },
-            { name: "ZoneB 3", image: "images/ZoneB3.jpg", x: 0.46, y: 0.61 },
-            { name: "ZoneB 4", image: "images/ZoneB4.jpg", x: 0.35, y: 0.61 },
-            { name: "ZoneB 5", image: "images/ZoneB5.jpg", x: 0.4, y: 0.62 },
-            { name: "ZoneC 1", image: "images/ZoneC1.jpg", x: 0.48, y: 0.72 },
-            { name: "ZoneC 2", image: "images/ZoneC2.jpg", x: 0.40, y: 0.73 },
-            { name: "ZoneC 3", image: "images/ZoneC3.jpg", x: 0.35, y: 0.68 },
-            { name: "ZoneC 4", image: "images/ZoneC4.jpg", x: 0.23, y: 0.68 },
-            { name: "Arial 1", image: "images/Arial1.jpg", x: 0.6, y: 0.9 },
-            { name: "Arial 2", image: "images/Arial2.jpg", x: 0.05, y: 0.9 },
+            { name: "A1", image: "images/ZoneA1.jpg", x: 0.675, y: 0.30, yaw: 90, pitch: -10 },
+            { name: "A2", image: "images/ZoneA2.jpg", x: 0.57, y: 0.2 },
+            { name: "A3", image: "images/ZoneA3.jpg", x: 0.48, y: 0.27, yaw: -90, pitch: 0 },
+            { name: "A4", image: "images/ZoneA4.jpg", x: 0.6, y: 0.12 },
+	    { name: "A5", image: "images/ZoneA5.jpg", x: 0.65, y: 0.30 },
+	    { name: "A5_op2", image: "images/ZoneA5_op2.jpg", x: 0.575, y: 0.30 },
+	    { name: "A6", image: "images/ZoneA6.jpg", x: 0.7, y: 0.43 },
+            { name: "B1", image: "images/ZoneB1.jpg", x: 0.385, y: 0.54, yaw: -170, pitch: 0  },
+            { name: "B2", image: "images/ZoneB2.jpg", x: 0.39, y: 0.47 },
+            { name: "B3", image: "images/ZoneB3.jpg", x: 0.48, y: 0.61 },
+            { name: "B4", image: "images/ZoneB4.jpg", x: 0.33, y: 0.61 },
+            { name: "B5", image: "images/ZoneB5.jpg", x: 0.45, y: 0.4 },
+            { name: "C1", image: "images/ZoneC1.jpg", x: 0.48, y: 0.72 },
+            { name: "C2", image: "images/ZoneC2.jpg", x: 0.40, y: 0.73 },
+            { name: "C3", image: "images/ZoneC3.jpg", x: 0.35, y: 0.68 },
+            { name: "C4", image: "images/ZoneC4.jpg", x: 0.23, y: 0.68 },
+	    { name: "C5", image: "images/ZoneC5.jpg", x: 0.3, y: 0.77, yaw: -75, pitch: 0  },
+	    { name: "Arial1_Draft1", image: "images/Arial1.jpg", x: 0.6, y: 0.90, yaw: -20, pitch: -10 },
+            { name: "Arial2", image: "images/Arial2.jpg", x: 0.05, y: 0.9, yaw: 0, pitch: -40 },
+	    { name: "RD1", image: "images/RD1.jpg", x: 0.88, y: 0.40 },
+	    { name: "RD2", image: "images/RD2.jpg", x: 0.575, y: 0.49 },
         ];
 
         const mapContainer = document.getElementById('map-container');
@@ -157,7 +163,7 @@
         let viewer;
 
         // Hiển thị ảnh 360
-        function loadImage(imagePath) {
+        function loadImage(imagePath, initialYaw = 0, initialPitch = 0) {
             if (viewer) viewer.destroy();
             viewerContainer.style.display = 'block';
             viewer = pannellum.viewer('viewer', {
@@ -168,7 +174,9 @@
                 showControls: true,
 		hfov: 120,      // Góc nhìn rộng nhất (tối đa)
         minHfov: 100,    // Giới hạn thu nhỏ
-        maxHfov: 120    // Giới hạn phóng to
+        maxHfov: 120,    // Giới hạn phóng to
+yaw: initialYaw, // Góc nhìn ngang
+        pitch: initialPitch // Góc nhìn dọc
             });
         }
 
@@ -183,7 +191,7 @@
             label.innerText = location.name;
 
             // Sự kiện click vào marker để mở ảnh 360
-            marker.addEventListener('click', () => loadImage(location.image));
+            marker.addEventListener('click', () => loadImage(location.image, location.yaw, location.pitch));
 
             mapContainer.appendChild(marker);
             mapContainer.appendChild(label);
